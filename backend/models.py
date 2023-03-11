@@ -1,5 +1,4 @@
 from typing import List
-
 from flask_sqlalchemy import SQLAlchemy
 from pydantic import BaseModel
 

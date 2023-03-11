@@ -18,7 +18,6 @@ def create_app():
 
 
 app = create_app()
-
 CORS(app)
 
 
@@ -35,6 +34,7 @@ def create_users_batch():
 def delete_all_users():
     with app.app_context():
         User.query.delete()
+        Skill.query.delete()
         db.session.commit()
     return "Users deleted"
 
@@ -48,9 +48,7 @@ def users():
     """
     with app.app_context():
         try:
-            print("Args", request.args.getlist("skill"))
             skills = validate_skills(request.args.getlist("skill"))
-            print(skills)
             if not skills:
                 users = UsersResponse(
                     users=[
@@ -75,12 +73,11 @@ def users():
                         for user in User.query.filter(User.skills.any(Skill.name.in_(skills))).all()
                     ]
                 )
-                print(users.users)
                 return users.json(),200
         except Exception as e:
             return str(e), 500
 
-@app.route("/users/<int:user_id>", methods=["PUT"])
+@app.route("/users/<int:user_id>/skills", methods=["PUT"])
 def update_user_skills(user_id):
     """
         Api to Update user with skills
@@ -96,7 +93,6 @@ def update_user_skills(user_id):
                 return "User Not Found", 404
             
             skills= validate_skills(request.get_json().get("skills"))
-            print(len(skills))
             if not skills:
                 return "Invalid Skills", 400
             
@@ -109,7 +105,6 @@ def update_user_skills(user_id):
             user.skills= [
                 skill for skill in Skill.query.filter(Skill.name.in_(skills)).all()
             ]
-            print(user)
             usersResponse = UsersResponse(
                 users=[
                     {
@@ -119,7 +114,6 @@ def update_user_skills(user_id):
                     }
                 ]
             )
-            print("Users" , usersResponse.users)
             db.session.commit()
             return usersResponse.json(), 200
           
@@ -135,8 +129,7 @@ def skills():
     with app.app_context():
         skillset= Skill.query.all()
     return SkillsResponse(skills=skillset).json(), 200
-
-        
+      
 def validate_skills(skills):
     if skills == []:
         return False
@@ -146,7 +139,6 @@ def validate_skills(skills):
         if skill == "":
             return False
     return skills
-
 
 if __name__ == "__main__":
     app.run()
