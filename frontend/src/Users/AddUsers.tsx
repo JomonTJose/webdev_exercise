@@ -9,5 +9,9 @@ export default function AddUsers({ refetch }: propTypes): JSX.Element{
   const onClick = useCallback(() => {
     addUsersBulk().then(refetch);
   }, [refetch]);
-  return <button onClick={onClick}>Add Users</button>;
+  return <button 
+          data-testid="addusers" 
+          onClick={onClick}>
+          Add Users
+        </button>;
 }

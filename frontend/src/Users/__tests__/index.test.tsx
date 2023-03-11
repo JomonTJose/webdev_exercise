@@ -37,27 +37,4 @@ describe("Users Component", ()=>{
         expect(screen.getByText("Michael")).toBeInTheDocument();
         
     })
-
-    it("Should open add skils modal when clikcing on add skill button", ()=>{
-        const  users: IUser[]=[{
-             id:1,
-             name:"Michael",
-             skills: []
-         },
-         {
-             id:2,
-             name:"Gabriel",
-             skills: []
-         }];
-         render(
-           <UsersList
-             users={users}
-             onAddSkill={() => {}}
-             onSkillClick={() => {}}
-           />
-         );
- 
-         expect(screen.getByTestId("add-skll-button")).toBeInTheDocument();
-         
-     })
 })

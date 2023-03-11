@@ -15,6 +15,7 @@ const SkillsSearch = ({
   freeSolo,
   error,
 }: SkillsProp) => {
+
   return (
     <Autocomplete
       multiple

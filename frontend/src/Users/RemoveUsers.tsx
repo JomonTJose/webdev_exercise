@@ -9,5 +9,11 @@ export default function RemoveUsers({ refetch }: propTypes): JSX.Element {
   const onClick = useCallback(() => {
     deleteUsersBulk().then(refetch);
   }, [refetch]);
-  return <button  onClick={onClick}>Remove Users</button>;
+  return (
+    <button 
+      data-testid="removeusers" 
+      onClick={onClick}>
+        Remove Users
+    </button>
+  );
 }

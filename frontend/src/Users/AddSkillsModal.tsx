@@ -23,25 +23,24 @@ const AddSkillsModal = ({
   onClose,
   onSubmit,
 }: SkillsModalProps) => {
+
   const [skills, setSkills] = useState<ISkill[]>([]);
   const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
-    const [error, setError]= useState<string>("");
+  const [error, setError]= useState<string>("");
+
   useEffect(() => {
     if(user){
         setSelectedSkills([...user.skills])
     }
   }, [user]);
   
-  const handleChange = (e: any, value: string[]) => {
-    setSelectedSkills([...value]);
+  const handleChange = (e: any, skills: string[]) => {
+    setSelectedSkills([...skills]);
   };
   const loadSkills = useCallback(() => {
     fetchSkills().then(setSkills);
   }, []);
   useEffect(loadSkills, [loadSkills]);
-
- 
-
 
   const saveSkills =async ()=>{
     try{
@@ -52,9 +51,9 @@ const AddSkillsModal = ({
         }else{
             setError("Please add atleast one skill")
         }   
-
-    }catch{
-        
+    }
+    catch{
+      setError("Error adding skill")
     }
   
   }
