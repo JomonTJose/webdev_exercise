@@ -23,6 +23,9 @@ CORS(app)
 
 @app.route("/users", methods=["POST"])
 def create_users_batch():
+    """
+    Add a list of users
+    """
     with app.app_context():
         for x in range(10):
             db.session.add(User(name=fake.name()))
@@ -116,7 +119,7 @@ def update_user_skills(user_id):
             )
             db.session.commit()
             return usersResponse.json(), 200
-          
+        
         except Exception as e:
             return str(e), 500
         
@@ -129,7 +132,7 @@ def skills():
     with app.app_context():
         skillset= Skill.query.all()
     return SkillsResponse(skills=skillset).json(), 200
-      
+    
 def validate_skills(skills):
     if skills == []:
         return False
