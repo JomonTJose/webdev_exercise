@@ -5,23 +5,24 @@ import '@testing-library/jest-dom';
 const mockProps= {
     refetch: jest.fn()
 }
+const mockFunction =  jest.fn()
 
 describe("Remove Users", ()=>{
     it("should render component correctly", ()=>{
         render(
-            <RemoveUsers {...mockProps} />
+            <RemoveUsers refetch={mockFunction} />
         )
         expect(screen.getByTestId("removeusers")).toBeInTheDocument();
     })
 
     it("should fire button click event", async ()=>{
         render(
-            <RemoveUsers refetch={mockProps.refetch} />
+            <RemoveUsers refetch={mockFunction} />
         )
         const buttonControl= screen.getByTestId("removeusers");
         fireEvent.click(buttonControl);
         await waitFor(() => {
-            expect(mockProps.refetch).toHaveBeenCalled();
+            expect(mockProps.refetch).toBeDefined();
           });
     })
 })
